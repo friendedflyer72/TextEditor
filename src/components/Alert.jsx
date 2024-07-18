@@ -1,15 +1,27 @@
-import React from 'react'
+import React from 'react';
 
 export default function Alert(props) {
-    const capitalize = (Word) => {
-        const lower = Word.toLowerCase();
-        return lower.charAt(0).toUpperCase() + lower.slice(1);
-      }
+  const capitalize = (word) => {
+    const lower = word.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  };
+
+  const getAlertStyle = (type) => {
+    switch(type) {
+      case 'success':
+        return 'bg-green-100 text-green-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
-    <div className='h-[60px] my-14'> 
-      {props.alert && <div className={`alert alert-${props.alert.Type}`} role="alert">
-      <strong>{capitalize(props.alert.Type)}</strong>{props.alert.msg}
-      </div>}
-      </div>
-  )
+    <div style={{ height: "60px" }}>
+      {props.alert && (
+        <div className={`alert ${getAlertStyle(props.alert.type)} p-4 rounded-md`} role="alert">
+          <strong>{capitalize(props.alert.type)}</strong>: {props.alert.msg}
+        </div>
+      )}
+    </div>
+  );
 }

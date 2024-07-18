@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Container from "./components/Container";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
 
 const App = () => {
   const [mode, setMode] = useState("light");
+  const [alert, setAlert] = useState(null);
 
   const toggleMode = () => {
     if (mode === "dark") {
@@ -22,8 +22,6 @@ const App = () => {
     }
   };
 
-  const [alert, setAlert] = useState(null);
-
   const showAlert = (message, type) => {
     setAlert({
       msg: message,
@@ -37,16 +35,11 @@ const App = () => {
 
   return (
     <>
-        <Navbar
-          mode={mode}
-          toggleMod={toggleMode}
-          Title="Text Editor"
-          About="About"
-        />
-        <h1 className="underline text-center text-red-500">Coming soon !</h1>
-        {alert && (
-          <div className={`alert alert-${alert.type}`}>{alert.msg}</div>
-        )}
+      <Navbar mode={mode} toggleMod={toggleMode} Title="Text Editor" About="About" />
+      <Alert alert={alert} />
+      <div className="p-4">
+        <h1 className="underline text-center text-red-500">Hello World!</h1>
+      </div>
     </>
   );
 };
