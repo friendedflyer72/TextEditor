@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
+import Form from "./components/Form";
+
 
 const App = () => {
   const [mode, setMode] = useState("light");
@@ -37,9 +39,8 @@ const App = () => {
     <>
       <Navbar mode={mode} toggleMod={toggleMode} Title="Text Editor" About="About" />
       <Alert alert={alert} />
-      <div className="p-4">
-        <h1 className="underline text-center text-red-500">Hello World!</h1>
-      </div>
+      
+      <Form heading="Enter your text to analyse" style={toggleMode} mode={mode} showAlert={showAlert} />
     </>
   );
 };
