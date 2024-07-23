@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Container from "./Container";
 
 export default function Form(props) {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const handleOnChange = (event) => {
     setText(event.target.value);
   };
-//handle upper case
+  //handle upper case
   const handleUppercase = () => {
     if (text.length === 0) {
       return props.showAlert("Enter some text to perform your task", "warning");
@@ -17,7 +17,8 @@ export default function Form(props) {
       props.showAlert("Your text converted to Uppercase", "success");
     }
   };
-//handle lower case
+
+  //handle lower case
   const handleLowercase = () => {
     if (text.length === 0) {
       return props.showAlert("Enter some text to perform your task", "warning");
@@ -28,38 +29,121 @@ export default function Form(props) {
     }
   };
 
+  //remove extra spaces logic
+  const handleRemoveExtraSpaces = () => {
+    if (text.length === 0) {
+      return props.showAlert("Enter some text to perform your task", "warning");
+    } else {
+      let newText = text.replace(/\s+/g, ' ').trim();
+      setText(newText);
+      props.showAlert("Removed extra spaces from your text", "success");
+    }
+  };
+
+  const handleCapitalize = () => {
+    if (text.length === 0) {
+      return props.showAlert("Enter some text to perform your task", "warning");
+    } else {
+      let arr = text.split(" ");
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+      }
+      let newText = arr.join(" ");
+      setText(newText);
+      props.showAlert("Added per word capitalize to your text", "success");
+    }
+  };
+
+  const handleCopy = () => {
+    var text = document.getElementById("Text")
+    text.select();
+    navigator.clipboard.writeText(text.value);
+    props.showAlert("Text copied to clipboard", "success");
+  };
 
   let wordCount = text.split(" ").filter((element) => { return element.length !== 0 }).length;
+
 
   return (
     <div>
       <Container>
         <div className="mb-3">
           <label className="mb-3" htmlFor="text">
-            <h1 className='text-3xl font-bold mb-2'>{props.heading}</h1>
+            <h1 className="text-3xl mb-2">{props.heading}</h1>
           </label>
-          <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={text} onChange={handleOnChange} id="text" style={{ backgroundColor: props.mode === "dark" ? "grey" : "white", color: props.mode === "dark" ? "white" : "#2c2556" }} rows="20"></textarea>
-          
-          <div className='my-5 border rounded px-5 pb-2 pt-2.5'>
-            <h2 className='text-xl mb-3'>Text Edit Tools:</h2>
-            <button disabled={text.length === 0} className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5" onClick={handleLowercase}>Convert to Lowercase</button>
-            <button disabled={text.length === 0} className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5" onClick={handleUppercase}>Convert to Uppercase</button>
-            {/* <button disabled={text.length === 0} className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5" onClick={handleRemoveExtraSpaces}>Remove Extra Spaces</button> */}
-            {/* <button disabled={text.length === 0} className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5" onClick={handleCapitalize}>Capitalize Per Word</button> */}
-            {/* <button disabled={text.length === 0} className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5" onClick={handleCopy}>Copy Text</button> */}
+          <textarea
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            value={text}
+            onChange={handleOnChange}
+            id="Text"
+            style={{
+              backgroundColor: props.mode === "dark" ? "grey" : "white",
+              color: props.mode === "dark" ? "white" : "#2c2556",
+            }}
+            rows="20"
+          ></textarea>
+
+          <div className="my-5 border rounded px-5 py-5">
+            <h2 className="text-xl mb-3">Text Edit Tools:</h2>
+            <button
+              disabled={text.length === 0}
+              className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5"
+              onClick={handleLowercase}
+            >
+              Convert to Lowercase
+            </button>
+            <button
+              disabled={text.length === 0}
+              className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5"
+              onClick={handleUppercase}
+            >
+              Convert to Uppercase
+            </button>
+            <button
+              disabled={text.length === 0}
+              className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5"
+              onClick={handleRemoveExtraSpaces}
+            >
+              Remove Extra Spaces
+            </button>
+            <button
+              disabled={text.length === 0}
+              className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5"
+              onClick={handleCapitalize}
+            >
+              Capitalize Per Word
+            </button>
+            <button
+              disabled={text.length === 0}
+              className="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 ml-5"
+              onClick={handleCopy}
+            >
+              Copy Text
+            </button>
           </div>
         </div>
-      
-      <div className="border px-5 pb-2 pt-2.5 my-3" style={{ color: props.mode === "dark" ? "white" : "#2c2556" }}>
-        <h1 className='text-xl mb-3'>Your Text Summary</h1>
-        <p>Number of characters: {text.length} <br />
-          Number of words: {wordCount} <br />
-          Time to speak text: {Math.floor(0.008 * wordCount * 100) / 100} min <br />
-          Time to read text: {Math.floor(0.005 * wordCount * 100) / 100} min
-        </p>
-        <h1 className='text-xl mt-3'>Preview</h1>
-        <p><i>{text.length > 0 ? text : "Enter some text in the textBox above to preview it"}</i></p>
-      </div>
+
+        <div
+          className="border px-5 pb-2 pt-2.5 my-3"
+          style={{ color: props.mode === "dark" ? "white" : "#2c2556" }}
+        >
+          <h1 className="text-xl mb-3">Your Text Summary</h1>
+          <p>
+            Number of characters: {text.length} <br />
+            Number of words: {wordCount} <br />
+            Time to speak text: {Math.floor(0.008 * wordCount * 100) /
+              100} min <br />
+            Time to read text: {Math.floor(0.005 * wordCount * 100) / 100} min
+          </p>
+          <h1 className="text-xl mt-3">Preview</h1>
+          <p>
+            <i>
+              {text.length > 0
+                ? text
+                : "Enter some text in the textBox above to preview it"}
+            </i>
+          </p>
+        </div>
       </Container>
     </div>
   );
